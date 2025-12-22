@@ -146,12 +146,15 @@
         // 自动检测订单
         autoDetectAndVerify()
           .then(function(success) {
+            setAutoVerifying(false);
             if (success) {
-              // 检测成功，已自动解锁，浮层会自动消失
+              // 检测成功，确保浮层被移除
+              if (isUnlocked()) {
+                removeOverlay();
+              }
               return;
             } else {
               // 检测失败，提示用户手动输入
-              setAutoVerifying(false);
               showError('自动检测失败，请手动输入订单号');
               // 显示输入框区域
               const verifySection = document.querySelector('.verify-section');
@@ -413,17 +416,32 @@
       })
     })
     .then(function(response) {
+      // 尝试获取错误详情
       if (!response.ok) {
-        throw new Error('网络请求失败');
+        return response.json().then(function(errorData) {
+          throw new Error(errorData.message || '网络请求失败，状态码: ' + response.status);
+        }).catch(function(parseError) {
+          // 如果无法解析 JSON，返回通用错误
+          throw new Error('网络请求失败，状态码: ' + response.status);
+        });
       }
       return response.json();
     })
     .then(function(data) {
-      return data.success === true;
+      if (data.success === true) {
+        return true;
+      } else {
+        // 验证失败，但不抛出错误（这是正常的业务逻辑）
+        if (!silent) {
+          console.log('订单验证失败:', data.message || '订单号无效或未购买该课程');
+        }
+        return false;
+      }
     })
     .catch(function(error) {
       if (!silent) {
         console.error('验证订单失败:', error);
+        console.error('错误详情:', error.message);
       }
       return false;
     });

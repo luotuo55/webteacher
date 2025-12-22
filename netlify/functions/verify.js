@@ -167,6 +167,13 @@ exports.handler = async function(event, context) {
 
   } catch (error) {
     console.error('验证过程出错:', error);
+    console.error('错误堆栈:', error.stack);
+    console.error('错误详情:', {
+      message: error.message,
+      name: error.name,
+      orderNo: body?.orderNo,
+      courseId: body?.courseId
+    });
     return {
       statusCode: 500,
       headers: {
@@ -175,7 +182,8 @@ exports.handler = async function(event, context) {
       },
       body: JSON.stringify({
         success: false,
-        message: '服务器内部错误'
+        message: '服务器内部错误',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
       })
     };
   }
@@ -216,29 +224,20 @@ async function verifyAfdianOrder(orderNo, courseId, token, userId) {
       sign: sign
     };
 
-    // 6. 调用爱发电 API（设置超时时间 30 秒）
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
-    
-    let response;
-    try {
-      response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-    } catch (fetchError) {
-      clearTimeout(timeoutId);
-      if (fetchError.name === 'AbortError') {
-        console.error('爱发电 API 请求超时（30秒）');
-        return false;
-      }
-      throw fetchError;
-    }
+    // 6. 调用爱发电 API（使用 Promise.race 实现超时控制，兼容性更好）
+    const fetchPromise = fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody)
+    });
+
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('请求超时（30秒）')), 30000);
+    });
+
+    const response = await Promise.race([fetchPromise, timeoutPromise]);
 
     if (!response.ok) {
       console.error('爱发电 API 请求失败:', response.status, response.statusText);
@@ -319,10 +318,11 @@ async function verifyAfdianOrder(orderNo, courseId, token, userId) {
 
   } catch (error) {
     // 处理超时或其他网络错误
-    if (error.name === 'AbortError' || error.name === 'TimeoutError') {
-      console.error('爱发电 API 请求超时');
+    if (error.message && error.message.includes('超时')) {
+      console.error('爱发电 API 请求超时（30秒）');
     } else {
       console.error('验证订单时出错:', error);
+      console.error('错误堆栈:', error.stack);
     }
     return false;
   }
