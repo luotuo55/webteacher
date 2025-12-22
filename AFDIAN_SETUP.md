@@ -174,10 +174,32 @@ if (orderNo.startsWith('test-')) {
 - [爱发电开发者后台](https://afdian.com/dashboard/dev)
 - [爱发电 API 文档](https://afdian.com/dashboard/dev)（需要在开发者后台查看）
 
+## 支付回调功能
+
+系统支持爱发电支付回调（Webhook），实现自动解锁课程。
+
+### 回调 URL
+
+部署后，回调 URL 为：
+```
+https://你的域名/.netlify/functions/afdian-callback
+```
+
+### 配置回调地址
+
+1. 登录[爱发电开发者后台](https://afdian.com/dashboard/dev)
+2. 进入应用设置
+3. 找到 **Webhook 通知地址** 配置项
+4. 填写回调 URL
+5. 保存配置
+
+详细说明请参考：[AFDIAN_CALLBACK.md](./AFDIAN_CALLBACK.md)
+
 ## 下一步
 
 1. 在爱发电开发者后台获取 API Token
-2. 配置环境变量 `AFDIAN_TOKEN`
-3. 根据实际 API 文档完善 `verify.js` 中的加密和签名逻辑
+2. 配置环境变量 `AFDIAN_TOKEN` 和 `AFDIAN_USER_ID`
+3. 配置回调 URL（可选，但推荐）
 4. 测试订单验证功能
+5. 测试回调功能（如果已配置）
 
