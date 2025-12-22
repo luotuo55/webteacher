@@ -20,6 +20,8 @@
 2. 添加环境变量：
    - **变量名**：`AFDIAN_TOKEN`
    - **变量值**：从爱发电开发者后台获取的 Token
+   - **变量名**：`AFDIAN_USER_ID`
+   - **变量值**：从爱发电开发者后台获取的 User ID
 
 ### 3. 本地开发配置
 
@@ -27,6 +29,7 @@
 
 ```bash
 AFDIAN_TOKEN=your_afdian_token_here
+AFDIAN_USER_ID=your_afdian_user_id_here
 ```
 
 **注意**：`.env` 文件已在 `.gitignore` 中，不会被提交到代码仓库。
@@ -63,11 +66,13 @@ AFDIAN_TOKEN=your_afdian_token_here
 
 ### 当前实现状态
 
-当前 `netlify/functions/verify.js` 中的实现是简化版本，需要根据实际 API 文档完善：
+当前 `netlify/functions/verify.js` 已完善加密和签名逻辑：
 
 1. ✅ 测试模式支持（订单号以 `test-` 开头）
-2. ⚠️ 真实 API 调用需要完善加密和签名逻辑
-3. ⚠️ 订单验证逻辑需要根据实际返回数据结构调整
+2. ✅ AES-128-ECB 加密参数
+3. ✅ MD5 签名生成
+4. ✅ 完整的订单验证逻辑（状态检查、课程匹配、ALL_ACCESS 支持）
+5. ✅ 错误处理和超时处理
 
 ## 完善验证逻辑
 
