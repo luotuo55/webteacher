@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>H5 课件托管系统</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #fff;
+      font-size: 36px;
+      margin-bottom: 40px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .course-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .course-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .course-card h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    .course-card p {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .course-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .course-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📚 H5 课件托管系统</h1>
+    <div class="course-grid">
+      <a href="/lessons/ninepluse/" class="course-card">
+        <span class="course-icon">🔢</span>
+        <h2>9加几 - 趣味数学课</h2>
+        <p>凑十法大冒险，轻松掌握9加几</p>
+      </a>
+
+      <a href="/lessons/diji/" class="course-card">
+        <span class="course-icon">👥</span>
+        <h2>数学排队问题</h2>
+        <p>互动课件：学习排队问题，理解"之间"的概念</p>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
+

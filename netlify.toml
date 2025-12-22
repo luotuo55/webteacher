@@ -1,0 +1,94 @@
+# Netlify 配置文件
+
+[build]
+  # 构建命令（如果需要）
+  command = ""
+  # 发布目录
+  publish = "."
+
+# 函数配置
+[functions]
+  # Node.js 运行时版本
+  node_bundler = "esbuild"
+  # 函数目录
+  directory = "netlify/functions"
+
+# 重定向规则：支持 ninepluse 项目的 TypeScript 文件
+# 将根路径的 TypeScript 文件重定向到 ninepluse 目录（用于支持 /index.tsx 路径）
+[[redirects]]
+  from = "/index.tsx"
+  to = "/lessons/ninepluse/index.tsx"
+  status = 200
+
+[[redirects]]
+  from = "/App.tsx"
+  to = "/lessons/ninepluse/App.tsx"
+  status = 200
+
+[[redirects]]
+  from = "/constants.ts"
+  to = "/lessons/ninepluse/constants.ts"
+  status = 200
+
+[[redirects]]
+  from = "/types.ts"
+  to = "/lessons/ninepluse/types.ts"
+  status = 200
+
+[[redirects]]
+  from = "/components/*"
+  to = "/lessons/ninepluse/components/:splat"
+  status = 200
+
+# 为 TypeScript/JSX 文件设置正确的 MIME 类型
+# 注意：Netlify Dev 可能不完全支持这些 headers，生产环境会正常工作
+[[headers]]
+  for = "/lessons/ninepluse/*.tsx"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/lessons/ninepluse/*.ts"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/*.tsx"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/*.ts"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/*.jsx"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Content-Type = "text/css; charset=utf-8"
+
+# 安全头设置
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# 静态文件缓存
+[[headers]]
+  for = "/common/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/common/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
