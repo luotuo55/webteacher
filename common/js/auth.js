@@ -55,6 +55,66 @@
   }
 
   /**
+   * 生成设备指纹（用于标识设备）
+   * @returns {string} 设备指纹
+   */
+  function getDeviceFingerprint() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Arial';
+    ctx.fillText('Device fingerprint', 2, 2);
+    
+    const fingerprint = [
+      navigator.userAgent,
+      navigator.language,
+      screen.width + 'x' + screen.height,
+      new Date().getTimezoneOffset(),
+      canvas.toDataURL().substring(0, 50)
+    ].join('|');
+    
+    // 简单的哈希函数
+    let hash = 0;
+    for (let i = 0; i < fingerprint.length; i++) {
+      const char = fingerprint.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    return Math.abs(hash).toString(36).substring(0, 12);
+  }
+
+  /**
+   * 生成自定义订单号
+   * 格式：courseId_deviceFingerprint_timestamp_random
+   * @returns {string} 自定义订单号
+   */
+  function generateCustomOrderId() {
+    const deviceFingerprint = getDeviceFingerprint();
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substring(2, 9);
+    
+    return `${COURSE_ID}_${deviceFingerprint}_${timestamp}_${random}`;
+  }
+
+  /**
+   * 获取带自定义订单号的购买链接
+   * @returns {string} 带自定义订单号的购买链接
+   */
+  function getAfdianUrlWithCustomOrder() {
+    const customOrderId = generateCustomOrderId();
+    
+    // 存储自定义订单号到 sessionStorage
+    sessionStorage.setItem('custom_order_id', customOrderId);
+    sessionStorage.setItem('custom_order_course_id', COURSE_ID);
+    sessionStorage.setItem('custom_order_timestamp', Date.now().toString());
+    
+    // 在爱发电链接中添加 custom_order_id 参数
+    const baseUrl = AFDIAN_URL;
+    const separator = baseUrl.includes('?') ? '&' : '?';
+    return `${baseUrl}${separator}custom_order_id=${encodeURIComponent(customOrderId)}`;
+  }
+
+  /**
    * 创建解锁浮层
    */
   function createUnlockOverlay() {
@@ -66,6 +126,9 @@
     // 创建弹窗容器
     const modal = document.createElement('div');
     modal.className = 'unlock-modal';
+
+    // 生成带自定义订单号的购买链接
+    const afdianUrlWithCustomOrder = getAfdianUrlWithCustomOrder();
 
     // 弹窗内容
     modal.innerHTML = `
@@ -81,7 +144,7 @@
         </div>
 
         <div class="purchase-section">
-          <a href="${AFDIAN_URL}" target="_blank" rel="noopener" class="purchase-btn" id="purchase-link-btn">
+          <a href="${afdianUrlWithCustomOrder}" target="_blank" rel="noopener" class="purchase-btn" id="purchase-link-btn">
             <span class="btn-icon">💳</span>
             <span class="btn-text">立即购买解锁</span>
           </a>
@@ -405,15 +468,28 @@
    */
   function verifyOrder(orderNo, courseId, silent) {
     silent = silent || false;
+    
+    // 获取存储的自定义订单号
+    const customOrderId = sessionStorage.getItem('custom_order_id');
+    const customOrderCourseId = sessionStorage.getItem('custom_order_course_id');
+    
+    // 构建请求体
+    const requestBody = {
+      orderNo: orderNo,
+      courseId: courseId
+    };
+    
+    // 如果自定义订单号存在且属于当前课程，则传入
+    if (customOrderId && customOrderCourseId === courseId) {
+      requestBody.customOrderId = customOrderId;
+    }
+    
     return fetch('/.netlify/functions/verify', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        orderNo: orderNo,
-        courseId: courseId
-      })
+      body: JSON.stringify(requestBody)
     })
     .then(function(response) {
       // 尝试获取错误详情

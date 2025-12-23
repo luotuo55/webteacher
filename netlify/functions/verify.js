@@ -83,7 +83,7 @@ exports.handler = async function(event, context) {
   try {
     // 解析请求体
     const body = JSON.parse(event.body || '{}');
-    const { orderNo, courseId } = body;
+    const { orderNo, courseId, customOrderId } = body;  // 新增 customOrderId 参数
 
     // 参数验证
     if (!orderNo || !courseId) {
@@ -150,8 +150,8 @@ exports.handler = async function(event, context) {
       };
     }
 
-    // 调用爱发电 API 验证订单
-    const verifyResult = await verifyAfdianOrder(orderNo, courseId, afdianToken, afdianUserId);
+    // 调用爱发电 API 验证订单（传入 customOrderId）
+    const verifyResult = await verifyAfdianOrder(orderNo, courseId, customOrderId, afdianToken, afdianUserId);
 
     return {
       statusCode: 200,
@@ -193,14 +193,15 @@ exports.handler = async function(event, context) {
  * 验证爱发电订单
  * @param {string} orderNo - 订单号
  * @param {string} courseId - 课程ID
+ * @param {string} customOrderId - 自定义订单号（可选）
  * @param {string} token - 爱发电 Token
  * @param {string} userId - 爱发电 User ID
  * @returns {Promise<boolean>}
  */
-async function verifyAfdianOrder(orderNo, courseId, token, userId) {
+async function verifyAfdianOrder(orderNo, courseId, customOrderId, token, userId) {
   try {
     // 爱发电 API 端点
-    const apiUrl = 'https://afdian.net/api/open/query-order';
+    const apiUrl = 'https://afdian.com/api/open/query-order';
     
     // 1. 构建业务参数
     const params = {
@@ -253,63 +254,33 @@ async function verifyAfdianOrder(orderNo, courseId, token, userId) {
     if (data.ecode === 200 && data.data) {
       const order = data.data;
       
-      // 检查订单状态（confirmed 表示已确认/已支付）
-      // 根据实际 API 文档，状态可能是 'confirmed' 或 'paid'
-      if (order.status !== 'confirmed' && order.status !== 'paid') {
-        console.log('订单状态未确认:', order.status);
+      // 检查订单状态（status === 2 表示支付成功）
+      if (order.status !== 2) {
+        console.log('订单状态未支付:', order.status);
         return false;
       }
 
-      // 特殊逻辑：如果用户购买了 ALL_ACCESS 方案，直接放行
-      if (order.plan_name === 'ALL_ACCESS' || 
-          order.plan_id === 'ALL_ACCESS' ||
-          (order.sku_detail && order.sku_detail.plan_name === 'ALL_ACCESS')) {
-        console.log('检测到 ALL_ACCESS 方案，直接放行');
-        return true;
-      }
-
-      // 检查课程匹配
-      // 匹配逻辑：sku_id、plan_id、product_id 或 name 中包含 courseId
-      const matchCourse = (item) => {
-        return item.sku_id === courseId ||
-               item.plan_id === courseId ||
-               item.product_id === courseId ||
-               (item.name && item.name.includes(courseId)) ||
-               (item.sku_detail && (
-                 item.sku_detail.sku_id === courseId ||
-                 item.sku_detail.plan_id === courseId ||
-                 item.sku_detail.name === courseId
-               ));
-      };
-
-      // 检查订单项
-      if (order.list && Array.isArray(order.list)) {
-        // 如果订单有 list 字段（订单项列表）
-        const hasCourse = order.list.some(matchCourse);
-        if (hasCourse) {
-          console.log('订单匹配课程:', courseId);
-          return true;
+      // 检查自定义订单号是否匹配（如果提供了 customOrderId）
+      if (customOrderId && order.custom_order_id) {
+        if (order.custom_order_id !== customOrderId) {
+          console.log('自定义订单号不匹配:', {
+            orderCustomOrderId: order.custom_order_id,
+            requestCustomOrderId: customOrderId
+          });
+          return false;  // 自定义订单号不匹配，拒绝验证
         }
-      }
-      
-      // 检查订单本身的字段
-      if (order.sku_id === courseId ||
-          order.plan_id === courseId ||
-          order.product_id === courseId ||
-          (order.sku_detail && matchCourse(order.sku_detail))) {
-        console.log('订单直接匹配课程:', courseId);
-        return true;
+        console.log('自定义订单号匹配成功');
       }
 
-      // 如果没有匹配到，记录日志以便调试
-      console.log('订单未匹配课程:', {
+      // 简化逻辑：只要 status === 2 且自定义订单号匹配（如果提供了），就返回成功
+      console.log('订单支付成功:', {
         orderNo: orderNo,
         courseId: courseId,
-        orderStatus: order.status,
-        orderData: JSON.stringify(order).substring(0, 200) // 只记录前200字符
+        customOrderId: customOrderId || '未提供',
+        status: order.status
       });
       
-      return false;
+      return true;
     } else {
       // API 返回错误
       console.error('爱发电 API 返回错误:', data);

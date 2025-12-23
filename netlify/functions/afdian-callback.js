@@ -258,6 +258,9 @@ exports.handler = async function(event, context) {
 
     const orderNo = orderData.out_trade_no;
     const orderStatus = orderData.status; // 2表示支付成功
+    const customOrderId = orderData.custom_order_id;  // 获取自定义订单号
+    const userId = orderData.user_id;
+    const planId = orderData.plan_id;
     
     if (!orderNo) {
       console.error('回调数据中缺少订单号');
@@ -283,6 +286,15 @@ exports.handler = async function(event, context) {
         })
       };
     }
+
+    // 记录订单信息（包含自定义订单号）
+    console.log('收到支付成功回调:', {
+      orderNo: orderNo,
+      customOrderId: customOrderId,
+      userId: userId,
+      planId: planId,
+      timestamp: new Date().toISOString()
+    });
 
     // 提取课程ID
     const courseId = getCourseIdFromOrder(orderData);
@@ -340,4 +352,6 @@ exports.handler = async function(event, context) {
     };
   }
 };
+
+
 
