@@ -633,6 +633,10 @@
    * 初始化
    */
   function init() {
+    // 暂时禁用认证功能（去掉蒙层）
+    // TODO: 需要启用认证时，删除或注释掉下面的 return 语句
+    return;
+    
     // 设置页面焦点检测
     setupFocusDetection();
     
