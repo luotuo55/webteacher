@@ -2,6 +2,9 @@
   publish = "dist"
   command = "npm run build"
 
+[build.environment]
+  NPM_FLAGS = "--legacy-peer-deps"
+
 # 针对 Vite 多页面的重定向配置（如果需要直接访问子页面 index.html）
 [[redirects]]
   from = "/lessons/ninepluse/*"
