@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
 
 export default defineConfig({
@@ -7,6 +8,10 @@ export default defineConfig({
     react({
       // 只对 .tsx 和 .jsx 文件使用 React 插件
       include: /\.(tsx|jsx)$/,
+    }),
+    vue({
+      // 只对 .vue 文件使用 Vue 插件
+      include: /\.vue$/,
     }),
   ],
   server: {
@@ -31,6 +36,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         'ninepluse': resolve(__dirname, 'lessons/ninepluse/index.html'),
         'diji': resolve(__dirname, 'lessons/diji/index.html'),
+        'nineplus_v2': resolve(__dirname, 'lessons/nineplus_v2/index.html'),
       },
     },
   },
@@ -44,7 +50,9 @@ export default defineConfig({
   },
   // 优化依赖
   optimizeDeps: {
-    include: ['react', 'react-dom', 'lucide-react', 'framer-motion'],
+    include: ['react', 'react-dom', 'lucide-react', 'framer-motion', 'vue'],
   },
+  // 配置 public 目录（支持子项目的 public 目录）
+  publicDir: 'public',
 });
 
