@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Settings, Calculator, ChevronLeft, ChevronRight, X, Lightbulb, BookOpen, Languages } from 'lucide-react';
 import CircleGrid from './components/CircleGrid';
 import BranchDiagram from './components/BranchDiagram';
@@ -234,7 +234,7 @@ const App: React.FC = () => {
                   onClick={() => updateAddend('num1', state.num1 - 1)}
                   className="p-4 md:p-6 bg-white hover:bg-slate-200 rounded-full text-slate-400 hover:text-indigo-600 transition-colors shadow-sm active:scale-90"
                 >
-                  <ChevronLeft size={48} md:size={72} />
+                  <ChevronLeft size={48} />
                 </button>
                 <div className="flex flex-col items-center min-w-[80px] md:min-w-[120px]">
                    <span className="text-8xl md:text-[10rem] font-black text-indigo-600 drop-shadow-sm leading-none">{state.num1}</span>
@@ -243,7 +243,7 @@ const App: React.FC = () => {
                   onClick={() => updateAddend('num1', state.num1 + 1)}
                   className="p-4 md:p-6 bg-white hover:bg-slate-200 rounded-full text-slate-400 hover:text-indigo-600 transition-colors shadow-sm active:scale-90"
                 >
-                  <ChevronRight size={48} md:size={72} />
+                  <ChevronRight size={48} />
                 </button>
               </div>
 
@@ -255,7 +255,7 @@ const App: React.FC = () => {
                   onClick={() => updateAddend('num2', state.num2 - 1)}
                   className="p-4 md:p-6 bg-white hover:bg-slate-200 rounded-full text-slate-400 hover:text-orange-600 transition-colors shadow-sm active:scale-90"
                 >
-                  <ChevronLeft size={48} md:size={72} />
+                  <ChevronLeft size={48} />
                 </button>
                 <div className="flex flex-col items-center min-w-[80px] md:min-w-[120px]">
                    <span className="text-8xl md:text-[10rem] font-black text-orange-600 drop-shadow-sm leading-none">{state.num2}</span>
@@ -264,7 +264,7 @@ const App: React.FC = () => {
                   onClick={() => updateAddend('num2', state.num2 + 1)}
                   className="p-4 md:p-6 bg-white hover:bg-slate-200 rounded-full text-slate-400 hover:text-orange-600 transition-colors shadow-sm active:scale-90"
                 >
-                  <ChevronRight size={48} md:size={72} />
+                  <ChevronRight size={48} />
                 </button>
               </div>
             </div>

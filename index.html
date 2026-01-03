@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K-5 Math Interactive Courseware</title>
+  <title>math app - Interactive K-5 Math Courseware</title>
   <style>
     :root {
       --primary: #4f46e5;
@@ -21,23 +21,27 @@
       background: #f3f4f6;
       color: #1f2937;
       line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     header {
       background: white;
-      padding: 2rem 1rem;
+      padding: 3rem 1rem;
       text-align: center;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       margin-bottom: 2rem;
     }
 
-    h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem; }
-    p.subtitle { color: #6b7280; font-size: 1.1rem; }
+    h1 { font-size: 3rem; color: var(--primary); margin-bottom: 0.75rem; font-weight: 800; letter-spacing: -0.025em; }
+    p.subtitle { color: #4b5563; font-size: 1.25rem; font-weight: 500; max-width: 600px; margin: 0 auto; }
 
     .container {
       max-width: 1100px;
       margin: 0 auto;
       padding: 0 1rem 4rem;
+      flex-grow: 1;
     }
 
     .grade-section {
@@ -113,16 +117,56 @@
       color: #9ca3af;
     }
 
+    footer {
+      background: white;
+      border-top: 1px solid #e5e7eb;
+      padding: 3rem 1rem;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: #6b7280;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .copyright {
+      color: #9ca3af;
+      font-size: 0.85rem;
+    }
+
     @media (max-width: 640px) {
       h1 { font-size: 1.8rem; }
+      .footer-links { gap: 1rem; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>🍎 North American Math</h1>
-  <p class="subtitle">Interactive K-5 Courseware Collection</p>
+  <h1>🍎 math app</h1>
+  <p class="subtitle">Interactive Math Apps for Kids: Learning by Doing</p>
 </header>
 
 <div class="container">
@@ -152,18 +196,30 @@
     </div>
   </section>
 
-  <!-- Grades 2-5 (Placeholders) -->
+  <!-- Kindergarten & Other Grades (Placeholders) -->
   <section class="grade-section">
     <div class="grade-header">
-      <span class="grade-badge bg-g2">Grade 2-5</span>
-      <h2>Upcoming Lessons</h2>
+      <span class="grade-badge bg-k">Kindergarten - G5</span>
+      <h2>More Lessons Coming Soon</h2>
     </div>
     <div class="empty-state">
-      More North American curriculum aligned content is being developed for G2 to G5.
+      More North American curriculum aligned content is being developed for Kindergarten to Grade 5.
     </div>
   </section>
 
 </div>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-links">
+      <a href="/about.html">About Us</a>
+      <a href="/contact.html">Contact Us</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="copyright">&copy; 2026 math app - mathmath.app</p>
+  </div>
+</footer>
 
 </body>
 </html>

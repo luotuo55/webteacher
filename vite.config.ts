@@ -24,9 +24,13 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     rollupOptions: {
-      // 多页面入口配置 (按年级系统重组)
+      // 多页面入口配置 (按年级系统重组 + 法律/信息页面)
       input: {
         main: resolve(__dirname, 'index.html'),
+        'about': resolve(__dirname, 'about.html'),
+        'contact': resolve(__dirname, 'contact.html'),
+        'privacy': resolve(__dirname, 'privacy.html'),
+        'disclaimer': resolve(__dirname, 'disclaimer.html'),
         'grade-1/making-ten-9': resolve(__dirname, 'lessons/grade-1/making-ten-9/index.html'),
         'grade-1/adding-876': resolve(__dirname, 'lessons/grade-1/adding-876/index.html'),
         'grade-1/make-ten-assistant': resolve(__dirname, 'lessons/grade-1/make-ten-assistant/index.html'),
