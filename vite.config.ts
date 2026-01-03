@@ -5,14 +5,8 @@ import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [
-    react({
-      // 只对 .tsx 和 .jsx 文件使用 React 插件
-      include: /\.(tsx|jsx)$/,
-    }),
-    vue({
-      // 只对 .vue 文件使用 Vue 插件
-      include: /\.vue$/,
-    }),
+    react(),
+    vue(),
   ],
   server: {
     port: 3000,
@@ -31,9 +25,9 @@ export default defineConfig({
         'contact': resolve(__dirname, 'contact.html'),
         'privacy': resolve(__dirname, 'privacy.html'),
         'disclaimer': resolve(__dirname, 'disclaimer.html'),
-        'grade-1/making-ten-9': resolve(__dirname, 'lessons/grade-1/making-ten-9/index.html'),
-        'grade-1/adding-876': resolve(__dirname, 'lessons/grade-1/adding-876/index.html'),
-        'grade-1/make-ten-assistant': resolve(__dirname, 'lessons/grade-1/make-ten-assistant/index.html'),
+        'lessons/grade-1/making-ten-9': resolve(__dirname, 'lessons/grade-1/making-ten-9/index.html'),
+        'lessons/grade-1/adding-876': resolve(__dirname, 'lessons/grade-1/adding-876/index.html'),
+        'lessons/grade-1/make-ten-assistant': resolve(__dirname, 'lessons/grade-1/make-ten-assistant/index.html'),
       },
     },
   },

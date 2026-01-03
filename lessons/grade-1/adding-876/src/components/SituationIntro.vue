@@ -4,7 +4,7 @@
       <h2>情境导入</h2>
       <div class="image-container">
         <img 
-          src="../../public/主题图片.png" 
+          src="/lessons/grade-1/adding-876/主题图片.png" 
           alt="跑步场景"
           class="theme-image"
           @click="handleImageClick"

@@ -1,0 +1,60 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NPM_FLAGS = "--legacy-peer-deps"
+
+# Grade System Main Pages
+[[redirects]]
+  from = "/kindergarten"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/grade-1"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/grade-2"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/grade-3"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/grade-4"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/grade-5"
+  to = "/index.html"
+  status = 200
+
+# Lesson Rewrite Rules (Clean URLs)
+[[redirects]]
+  from = "/grade-1/making-ten-9"
+  to = "/lessons/grade-1/making-ten-9/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/grade-1/adding-876"
+  to = "/lessons/grade-1/adding-876/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/grade-1/make-ten-assistant"
+  to = "/lessons/grade-1/make-ten-assistant/index.html"
+  status = 200
+
+# Catch-all for assets in subdirectories
+[[redirects]]
+  from = "/lessons/*"
+  to = "/lessons/:splat"
+  status = 200
+
