@@ -3,10 +3,31 @@ import react from '@vitejs/plugin-react';
 import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
 
+// Google Analytics 注入插件
+const googleAnalyticsPlugin = (id: string) => ({
+  name: 'google-analytics',
+  transformIndexHtml(html: string) {
+    return html.replace(
+      '</head>',
+      `
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${id}');
+  </script>
+</head>`
+    );
+  }
+});
+
 export default defineConfig({
   plugins: [
     react(),
     vue(),
+    googleAnalyticsPlugin('G-YZ0MKEJJHT'),
   ],
   server: {
     port: 3000,
