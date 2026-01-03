@@ -1,0 +1,14 @@
+netlify dev
+
+   # 停止当前服务器（Ctrl+C），然后重新启动
+   npm run dev
+
+
+Make this app fully responsive and touch-friendly for elementary school students using iPads, Chromebooks (with touch screens), and mobile phones. 
+- Use larger touch targets (buttons and draggable elements at least 48x48 pixels).
+- Optimize drag-and-drop interactions for touch events (no hover dependency).
+- Ensure the layout adapts perfectly: full-screen on tablets, stacked vertically on phones, and keyboard/mouse fallback on laptops.
+- Use Tailwind CSS responsive classes (sm:, md:, lg:) for breakpoints.
+- Add meta viewport tag if missing.
+- Test for smooth performance on low-end devices.
+Update the code accordingly and keep the Make-a-Ten interactive features intact.

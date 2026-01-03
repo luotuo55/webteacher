@@ -1,4 +1,0 @@
-netlify dev
-
-   # 停止当前服务器（Ctrl+C），然后重新启动
-   npm run dev

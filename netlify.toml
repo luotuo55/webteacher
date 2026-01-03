@@ -5,19 +5,65 @@
 [build.environment]
   NPM_FLAGS = "--legacy-peer-deps"
 
-# 针对 Vite 多页面的重定向配置（如果需要直接访问子页面 index.html）
+# Grade System Main Pages
 [[redirects]]
-  from = "/lessons/ninepluse/*"
-  to = "/lessons/ninepluse/index.html"
+  from = "/kindergarten"
+  to = "/index.html"
   status = 200
 
 [[redirects]]
-  from = "/lessons/diji/*"
-  to = "/lessons/diji/index.html"
+  from = "/grade-1"
+  to = "/index.html"
   status = 200
 
 [[redirects]]
-  from = "/lessons/nineplus_v2/*"
-  to = "/lessons/nineplus_v2/index.html"
+  from = "/grade-2"
+  to = "/index.html"
   status = 200
 
+[[redirects]]
+  from = "/grade-3"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/grade-4"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/grade-5"
+  to = "/index.html"
+  status = 200
+
+# Elegant Lesson URLs (Mapped to Grade System)
+[[redirects]]
+  from = "/grade-1/making-ten-9"
+  to = "/lessons/grade-1/making-ten-9/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/grade-1/adding-876"
+  to = "/lessons/grade-1/adding-876/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/grade-1/make-ten-assistant"
+  to = "/lessons/grade-1/make-ten-assistant/index.html"
+  status = 200
+
+# Legacy/Asset support for lessons
+[[redirects]]
+  from = "/lessons/grade-1/making-ten-9/*"
+  to = "/lessons/grade-1/making-ten-9/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/lessons/grade-1/adding-876/*"
+  to = "/lessons/grade-1/adding-876/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/lessons/grade-1/make-ten-assistant/*"
+  to = "/lessons/grade-1/make-ten-assistant/:splat"
+  status = 200

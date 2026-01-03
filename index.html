@@ -1,112 +1,169 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>H5 课件托管系统</title>
+  <title>K-5 Math Interactive Courseware</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --primary: #4f46e5;
+      --k-color: #ec4899;
+      --g1-color: #f59e0b;
+      --g2-color: #10b981;
+      --g3-color: #3b82f6;
+      --g4-color: #8b5cf6;
+      --g5-color: #6366f1;
     }
 
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      padding: 40px 20px;
-      color: #333;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f3f4f6;
+      color: #1f2937;
+      line-height: 1.5;
     }
+
+    header {
+      background: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+
+    h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem; }
+    p.subtitle { color: #6b7280; font-size: 1.1rem; }
 
     .container {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
+      padding: 0 1rem 4rem;
     }
 
-    h1 {
-      text-align: center;
-      color: #fff;
-      font-size: 36px;
-      margin-bottom: 40px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    .grade-section {
+      margin-bottom: 3rem;
+    }
+
+    .grade-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .grade-badge {
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      color: white;
+      font-weight: bold;
+      font-size: 0.9rem;
+      text-transform: uppercase;
     }
 
     .course-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
     }
 
     .course-card {
-      background: #fff;
+      background: white;
       border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
+      padding: 1.5rem;
       text-decoration: none;
       color: inherit;
-      display: block;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      border-left: 5px solid transparent;
     }
 
     .course-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
 
-    .course-card h2 {
-      font-size: 20px;
-      margin-bottom: 12px;
-      color: #333;
+    .course-card h3 { margin-bottom: 0.5rem; color: #111827; }
+    .course-card p { font-size: 0.95rem; color: #4b5563; flex-grow: 1; }
+    
+    .status-tag {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary);
     }
 
-    .course-card p {
-      color: #666;
-      font-size: 14px;
-      line-height: 1.6;
+    /* Grade Colors */
+    .bg-k { background-color: var(--k-color); }
+    .bg-g1 { background-color: var(--g1-color); }
+    .bg-g2 { background-color: var(--g2-color); }
+    .border-k { border-left-color: var(--k-color); }
+    .border-g1 { border-left-color: var(--g1-color); }
+
+    .empty-state {
+      padding: 2rem;
+      background: #f9fafb;
+      border: 2px dashed #d1d5db;
+      border-radius: 12px;
+      text-align: center;
+      color: #9ca3af;
     }
 
-    .course-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
-      display: block;
-    }
-
-    @media (max-width: 768px) {
-      .course-grid {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 28px;
-      }
+    @media (max-width: 640px) {
+      h1 { font-size: 1.8rem; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>📚 H5 课件托管系统</h1>
+
+<header>
+  <h1>🍎 North American Math</h1>
+  <p class="subtitle">Interactive K-5 Courseware Collection</p>
+</header>
+
+<div class="container">
+  
+  <!-- Grade 1 Section -->
+  <section class="grade-section">
+    <div class="grade-header">
+      <span class="grade-badge bg-g1">Grade 1</span>
+      <h2>Operations & Algebraic Thinking</h2>
+    </div>
     <div class="course-grid">
-      <a href="/lessons/ninepluse/" class="course-card">
-        <span class="course-icon">🔢</span>
-        <h2>9加几 - 趣味数学课</h2>
-        <p>凑十法大冒险，轻松掌握9加几</p>
+      <a href="/lessons/grade-1/making-ten-9/index.html" class="course-card border-g1">
+        <h3>Making Ten: 9 + n</h3>
+        <p>Learn the "Making Ten" strategy for adding single digits to 9. Fun interactive adventure!</p>
+        <span class="status-tag">Interactive Activity →</span>
       </a>
-
-      <a href="/lessons/diji/" class="course-card">
-        <span class="course-icon">👥</span>
-        <h2>数学排队问题</h2>
-        <p>互动课件：学习排队问题，理解"之间"的概念</p>
+      <a href="/lessons/grade-1/adding-876/index.html" class="course-card border-g1">
+        <h3>Adding 8, 7, 6</h3>
+        <p>Extension of the "Making Ten" strategy for sums involving 8, 7, and 6.</p>
+        <span class="status-tag">Interactive Activity →</span>
       </a>
-
-      <a href="/lessons/nineplus_v2/" class="course-card">
-        <span class="course-icon">➕</span>
-        <h2>8、7、6加几</h2>
-        <p>互动教学：学习8、7、6加几的计算方法</p>
+      <a href="/lessons/grade-1/make-ten-assistant/index.html" class="course-card border-g1">
+        <h3>Make-a-Ten Assistant</h3>
+        <p>Interactive demonstration assistant for teaching the "Make-a-Ten" method step-by-step.</p>
+        <span class="status-tag">Interactive Activity →</span>
       </a>
     </div>
-  </div>
+  </section>
+
+  <!-- Grades 2-5 (Placeholders) -->
+  <section class="grade-section">
+    <div class="grade-header">
+      <span class="grade-badge bg-g2">Grade 2-5</span>
+      <h2>Upcoming Lessons</h2>
+    </div>
+    <div class="empty-state">
+      More North American curriculum aligned content is being developed for G2 to G5.
+    </div>
+  </section>
+
+</div>
+
 </body>
 </html>
-

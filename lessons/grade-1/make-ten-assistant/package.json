@@ -1,5 +1,5 @@
 {
-  "name": "2024人教一年级上册82面例6",
+  "name": "凑十法演示助手-(make-ten-method)",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,9 +10,9 @@
   },
   "dependencies": {
     "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "lucide-react": "^0.561.0",
-    "framer-motion": "^12.23.26"
+    "@google/genai": "^1.34.0",
+    "lucide-react": "^0.562.0",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

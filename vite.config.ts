@@ -17,13 +17,6 @@ export default defineConfig({
   server: {
     port: 3000,
     host: '0.0.0.0',
-    // 代理 Netlify 函数（可选：如果需要测试云函数，需要先启动 netlify dev）
-    // proxy: {
-    //   '/.netlify/functions': {
-    //     target: 'http://localhost:8888',
-    //     changeOrigin: true,
-    //   },
-    // },
   },
   // 配置公共基础路径
   base: '/',
@@ -31,12 +24,12 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     rollupOptions: {
-      // 多页面入口配置
+      // 多页面入口配置 (按年级系统重组)
       input: {
         main: resolve(__dirname, 'index.html'),
-        'ninepluse': resolve(__dirname, 'lessons/ninepluse/index.html'),
-        'diji': resolve(__dirname, 'lessons/diji/index.html'),
-        'nineplus_v2': resolve(__dirname, 'lessons/nineplus_v2/index.html'),
+        'grade-1/making-ten-9': resolve(__dirname, 'lessons/grade-1/making-ten-9/index.html'),
+        'grade-1/adding-876': resolve(__dirname, 'lessons/grade-1/adding-876/index.html'),
+        'grade-1/make-ten-assistant': resolve(__dirname, 'lessons/grade-1/make-ten-assistant/index.html'),
       },
     },
   },
@@ -52,7 +45,6 @@ export default defineConfig({
   optimizeDeps: {
     include: ['react', 'react-dom', 'lucide-react', 'framer-motion', 'vue'],
   },
-  // 配置 public 目录（支持子项目的 public 目录）
+  // 配置 public 目录
   publicDir: 'public',
 });
-
